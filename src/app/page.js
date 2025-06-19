@@ -8,7 +8,7 @@ import ChatWidget from "./components/ChatWidget";
 
 export default function Home() {
   const appId = "ecommerce-site";
-  const [currentPageType, setCurrentPageType] = useState("produit");
+  const [currentPageType, setCurrentPageType] = useState("home");
 
   const pageSpecificData = {
     productId: "123",

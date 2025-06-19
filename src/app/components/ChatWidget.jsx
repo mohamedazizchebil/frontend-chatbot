@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 
 // URL de votre API Backend (assurez-vous qu'elle correspond à votre configuration)
-const CHATBOT_BACKEND_URL = 'http://localhost:3001/api/chat';
+const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api/chat';
 
 
 export default function ChatWidget({ isOpen, setIsOpen, appId, pageType, pageSpecificData }) {
