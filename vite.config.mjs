@@ -1,14 +1,13 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "docs", 
+    outDir: "docs",
     lib: {
       entry: "src/widget.jsx",
-      name: "ChatbotWidget",
+      name: "ChatbotWidget", 
       fileName: "chatbot-widget",
       formats: ["umd"],
     },
@@ -21,5 +20,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  define: {
+    'process.env.NODE_ENV': '"production"',
   },
 });
