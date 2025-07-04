@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import ChatWidget from '../components/ChatWidget';
+import Chatbutton from '../components/ChatButton';
 
 export default function ClientOnlyChatbot() {
   const searchParams = useSearchParams();
@@ -15,7 +16,7 @@ export default function ClientOnlyChatbot() {
   const pageSpecificData = productName ? { productName } : null;
 
   return (
-    <ChatWidget
+    <Chatbutton
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       appId={appId}
