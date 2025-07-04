@@ -1,27 +1,27 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "docs",
     lib: {
-      entry: "src/widget.jsx",
-      name: "ChatbotWidget", 
-      fileName: "chatbot-widget",
-      formats: ["umd"],
+      entry: './src/standalone-widget.jsx',
+      name: 'StandaloneWidget',
+      fileName: () => 'widget.js',
+      formats: ['iife']
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
-    },
+          react: 'React',
+          'react-dom': 'ReactDOM'
+        }
+      }
+    }
   },
   define: {
-    'process.env.NODE_ENV': '"production"',
-  },
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env': {}
+  }
 });
