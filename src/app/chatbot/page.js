@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import ChatWidget from '../components/ChatWidget';
-import { Suspense } from 'react';
+
 
 export default function ChatbotPage() {
   const searchParams = useSearchParams();
@@ -18,7 +18,7 @@ export default function ChatbotPage() {
 
   return (
     <div className="h-screen w-screen">
-      <Suspense fallback={<div>Loading...</div>}>
+      
         <ChatWidget
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -26,7 +26,7 @@ export default function ChatbotPage() {
           pageType={pageType}
           pageSpecificData={pageSpecificData}
         />
-      </Suspense>
+      
       
         
       </div>
