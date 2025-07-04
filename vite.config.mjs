@@ -5,23 +5,10 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: './src/standalone-widget.jsx',
-      name: 'StandaloneWidget',
-      fileName: () => 'widget.js',
+      entry: './src/index.jsx',
+      name: 'ChatWidget',
+      fileName: () => 'chat-widget.js',
       formats: ['iife']
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
     }
-  },
-  define: {
-    'process.env.NODE_ENV': JSON.stringify('production'),
-    'process.env': {}
   }
 });
