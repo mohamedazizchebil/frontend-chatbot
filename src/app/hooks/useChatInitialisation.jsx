@@ -10,7 +10,7 @@ export default function useChatInitialisation({
   setCurrentOptions,
   setFullDialogueConfig
 }) {
-  const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
   useEffect(() => {
     const initializeChatbot = async () => {
