@@ -21,13 +21,14 @@ export default function ClientOnlyChatbot() {
 
   return (
     <div className="w-full h-full">
-      <Chatbutton
+      <ChatWidget
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         appId={appId}
         pageType={pageType}
         pageSpecificData={pageSpecificData}
       />
+      
     </div>
   );
 }

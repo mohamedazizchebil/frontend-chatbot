@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
-const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+//const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
 
 export default function useChatActions({
   messages,
@@ -78,8 +79,7 @@ export default function useChatActions({
 
       const actionHandlers = {
         redirect: (url) => {
-          const processedUrl = url
-          window.location.href = processedUrl;
+          window.open(url, '_blank', 'noopener,noreferrer');
         },
         semantic_search: () => {
           setShowSearchInput(true);

@@ -21,8 +21,8 @@ export default function Message({ type = "text", content, role = "bot" }) {
     >
       {!isUser && (
         <div className="flex items-center gap-2 mb-1">
-          <Image
-            src="/chatbot.jpg"
+          <img
+            src="chatbot.jpg"
             alt="Avatar bot"
             width={24}
             height={24}
