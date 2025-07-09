@@ -1,7 +1,6 @@
 
+const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
-//const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
-const CHATBOT_BACKEND_URL = 'http://localhost:3001/api'; // Pour le développement local
 
 export default function useSearchHandler({
   messages,

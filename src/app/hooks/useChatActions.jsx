@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-//const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
-const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+
 
 export default function useChatActions({
   messages,
