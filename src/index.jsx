@@ -21,8 +21,8 @@ function WidgetWrapper(props) {
     }
   }
 
-  const isOpen = props.isopen ?? props.isOpen;
-  const setIsOpen = props.setisopen ?? props.setIsOpen;
+  const rawIsOpen = props.isopen ?? props.isOpen;
+  const isOpen = rawIsOpen === 'true' || rawIsOpen === true;
 
   
 
@@ -31,8 +31,7 @@ function WidgetWrapper(props) {
       appId={appId}
       pageType={pageType}
       pageSpecificData={pageSpecificData}
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      isOpen={rawIsOpen !== undefined ? isOpen : undefined}
     />
   );
 }

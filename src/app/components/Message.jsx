@@ -21,13 +21,7 @@ export default function Message({ type = "text", content, role = "bot" }) {
     >
       {!isUser && (
         <div className="flex items-center gap-2 mb-1">
-          <img
-            src="/chatbot.jpg"
-            alt="Avatar bot"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
+          
           <span className="text-sm font-semibold text-gray-600">Aidea</span>
         </div>
       )}

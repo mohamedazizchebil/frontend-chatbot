@@ -22,7 +22,7 @@ export default function useChatInitialisation({
 
       let isValidSession = false;
 
-      // 🔐 Étape 1 : Vérification du token JWT
+      //  Étape 1 : Vérification du token JWT
       if (storedToken) {
         try {
           const checkRes = await fetch(`${CHATBOT_BACKEND_URL}/chat/check-session`, {
@@ -36,33 +36,6 @@ export default function useChatInitialisation({
           if (checkRes.ok) {
             isValidSession = true;
 
-            // 🕒 Planification de l’expiration automatique
-            const decoded = jwtDecode(storedToken);
-            const now = Math.floor(Date.now() / 1000);
-            const timeUntilExpiration = decoded.exp - now;
-
-            if (timeUntilExpiration > 0) {
-              const timer = setTimeout(() => {
-                localStorage.removeItem(`${dialogueKey}_token`);
-                localStorage.removeItem(`${dialogueKey}_messages`);
-                localStorage.removeItem(`${dialogueKey}_currentDialogueStep`);
-                localStorage.removeItem(`${dialogueKey}_fullDialogueConfig`);
-
-                setMessages([
-                  {
-                    type: 'bot',
-                    content: [
-                      {
-                        type: 'text',
-                        content: "Votre chat est terminé. Pour démarrer une nouvelle conversation, veuillez rafraîchir la page."
-                      }
-                    ]
-                  }
-                ]);
-              }, timeUntilExpiration * 1000);
-
-              return () => clearTimeout(timer); // Nettoyage du timer
-            }
           } else {
             // Token invalide ou expiré
             localStorage.removeItem(`${dialogueKey}_token`);
