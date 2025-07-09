@@ -53,7 +53,6 @@ export default function useSearchHandler({
       const res = await fetch(`${CHATBOT_BACKEND_URL}/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ nom: trimmedInput, description: trimmedInput }),
       });
 
