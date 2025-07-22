@@ -8,7 +8,7 @@ import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 import useSWR from 'swr';
 import DialogueList from '../../components/DialogueList';
 
-const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
 // SWR fetcher avec token + redirection si 401
 const swrFetcher = ([url, router]) => async () => {

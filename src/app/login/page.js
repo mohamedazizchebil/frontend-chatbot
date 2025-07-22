@@ -16,7 +16,7 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  const CHATBOT_BACKEND_URL = "http://localhost:3001/api";
+  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
   const handleSignIn = async () => {
     setLoading(true);

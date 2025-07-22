@@ -14,7 +14,7 @@ export default function ElasticConfigPage() {
   const [successMsg, setSuccessMsg] = useState("");
   const [isConfigured, setIsConfigured] = useState(false); // Config trouvée
   const [isEditing, setIsEditing] = useState(false); // Mode édition
-  const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
   const router =useRouter();
 
 

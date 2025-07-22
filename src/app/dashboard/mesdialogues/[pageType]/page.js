@@ -21,7 +21,7 @@ export default function ModifyDialogue() {
   const [successMsg, setSuccessMsg] = useState("");
   const [newDialogue, setNewDialogue] = useState('');
   
-  const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
   const fetchDialogue = async () => {
     try {

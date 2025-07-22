@@ -12,8 +12,8 @@ import useChatActions from '../hooks/useChatActions';
 import useSearchHandler from '../hooks/useSearchHandler';
 
 
-//const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api/chat';
-const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+
+
 
 
 export default function ChatWidget({ isOpen, setIsOpen, appId, pageType, pageSpecificData }) {

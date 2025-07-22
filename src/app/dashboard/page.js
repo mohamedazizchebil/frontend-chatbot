@@ -10,7 +10,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [appId, setAppId] = useState(null);
   const [loading, setLoading] = useState(true);
-  const CHATBOT_BACKEND_URL = "http://localhost:3001/api";
+  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
  
 
