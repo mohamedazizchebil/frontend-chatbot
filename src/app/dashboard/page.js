@@ -4,54 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
 
 export default function Dashboard() {
   const router = useRouter();
   const [appId, setAppId] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // Elasticsearch config
-  const [elasticUrl, setElasticUrl] = useState("");
-  const [elasticKey, setElasticKey] = useState("");
-  const [elasticMessage, setElasticMessage] = useState("");
   const CHATBOT_BACKEND_URL = "http://localhost:3001/api";
 
  
-
-  const saveElasticConfig = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await fetch(`${CHATBOT_BACKEND_URL}/addElasticInformation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          url: elasticUrl,
-          apikey: elasticKey,
-        }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setElasticMessage("Informations Elasticsearch enregistrées !");
-      } else {
-        setElasticMessage(data.error || "Une erreur s'est produite.");
-      }
-    } catch (err) {
-      console.error(err);
-      setElasticMessage("Erreur réseau.");
-    }
-  };
-  const submitElasticConfig = (e) => {
-    e.preventDefault();
-    if (!elasticUrl || !elasticKey) {
-      setElasticMessage("Veuillez remplir tous les champs.");
-      return;
-    }
-    saveElasticConfig();
-  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -86,9 +47,7 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {/* Config Elasticsearch */}
-          
-  {/* Bloc Configuration Elasticsearch */}
+       
  
 
 

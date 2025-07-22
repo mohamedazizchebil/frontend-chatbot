@@ -1,60 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Editor from '@monaco-editor/react';
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import Alert from '@mui/material/Alert';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
+import useSWR from 'swr';
+import DialogueList from '../../components/DialogueList';
 
-import DialogueList from '../../components/DialogueList'
+const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+
+// SWR fetcher avec token + redirection si 401
+const swrFetcher = ([url, router]) => async () => {
+  const res = await fetchWithAuth(url, {}, router);
+  if (!res) throw new Error('Session expirée');
+  if (!res.ok) {
+    const err = new Error('Erreur lors du chargement');
+    err.status = res.status;
+    throw err;
+  }
+  return res.json();
+};
 
 export default function MesDialoguesPage() {
-  const [dialogues, setDialogues] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
   const [pageType, setPageType] = useState('');
   const [newDialogue, setNewDialogue] = useState('[]');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const router = useRouter();
-  const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-    fetchDialogues();
-  }, [router]);
-
-  const fetchDialogues = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const res = await fetch(`${CHATBOT_BACKEND_URL}/getall`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setDialogues(data.dialogues || []);
-      } else {
-        setErrorMsg("Erreur lors du chargement des dialogues.")
-        
-      }
-    } catch (err) {
-      console.error(err);
-      setErrorMsg('Erreur réseau.');
-    }
-  };
+  const { data, error, isLoading, mutate } = useSWR(
+    [`${CHATBOT_BACKEND_URL}/getall`, router],
+    swrFetcher([`${CHATBOT_BACKEND_URL}/getall`, router])
+  );
 
   const handleAddDialogue = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
 
     if (!pageType.trim() || !newDialogue.trim()) {
-      setErrorMsg("Veuillez remplir tous les champs");
+      setSuccessMsg('');
+      setErrorMsg('Veuillez remplir tous les champs');
       return;
     }
 
@@ -67,56 +52,59 @@ export default function MesDialoguesPage() {
     }
 
     try {
-      const res = await fetch(`${CHATBOT_BACKEND_URL}/add`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const res = await fetchWithAuth(
+        `${CHATBOT_BACKEND_URL}/add`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageType, dialogue: parsedDialogue }),
         },
-        body: JSON.stringify({
-          pageType,
-          dialogue: parsedDialogue,
-        }),
-      });
+        router
+      );
+
+      if (!res) return;
 
       const data = await res.json();
       if (res.ok) {
         setSuccessMsg('Dialogue ajouté avec succès.');
+        setErrorMsg('');
         setPageType('');
         setNewDialogue('[]');
-        fetchDialogues();
+        mutate(); 
       } else {
-        setErrorMsg("Veuillez suivre La structure du dialogue");
+        setSuccessMsg('');
+        setErrorMsg('Veuillez suivre la structure du dialogue');
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      setSuccessMsg('');
       setErrorMsg('Erreur réseau.');
     }
   };
 
   const handleDelete = async (pageType) => {
-    const token = localStorage.getItem('token');
-    const confirm = window.confirm(`Supprimer le dialogue pour "${pageType}" ?`);
-    if (!confirm) return;
+    const confirmDelete = window.confirm(`Supprimer le dialogue pour "${pageType}" ?`);
+    if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`${CHATBOT_BACKEND_URL}/delete`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const res = await fetchWithAuth(
+        `${CHATBOT_BACKEND_URL}/delete`,
+        {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageType }),
         },
-        body: JSON.stringify({ pageType }),
-      });
+        router
+      );
+
+      if (!res) return;
 
       const data = await res.json();
       if (res.ok) {
-        setDialogues((prev) => prev.filter((d) => d.pageType !== pageType));
+        mutate(); // rafraîchit la liste après suppression
       } else {
         alert(data.error || 'Erreur lors de la suppression.');
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert('Erreur réseau.');
     }
   };
@@ -125,7 +113,6 @@ export default function MesDialoguesPage() {
     <div className="max-w-6xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold text-blue-600 mb-6">Mes Dialogues</h1>
 
-      {/* 📌 Infos sur la structure attendue */}
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
         <h2 className="text-lg font-semibold text-yellow-800 mb-1">⚠️ Structure attendue pour les dialogues</h2>
         <p className="text-sm text-yellow-700 mb-2">
@@ -146,30 +133,16 @@ export default function MesDialoguesPage() {
       </div>
 
       {errorMsg && (
-                  <Alert
-                    severity="error"
-                    className="text-sm"
-                    onClose={() => setErrorMsg("")}
-                    role="alert"
-                    aria-live="assertive"
-                  >
-                    
-                    {errorMsg}
-                  </Alert>
-                )}
-                {successMsg && (
-                  <Alert
-                    severity="success"
-                    className="text-sm"
-                    onClose={() => setSuccessMsg("")}
-                    role="status"
-                    aria-live="polite"
-                  >
-                    {successMsg}
-                  </Alert>
-                )}
+        <Alert severity="error" className="text-sm" onClose={() => setErrorMsg('')}>
+          {errorMsg}
+        </Alert>
+      )}
+      {successMsg && (
+        <Alert severity="success" className="text-sm" onClose={() => setSuccessMsg('')}>
+          {successMsg}
+        </Alert>
+      )}
 
-      {/* ➕ Ajouter un nouveau dialogue */}
       <form onSubmit={handleAddDialogue} className="mb-12 bg-white p-6 rounded shadow space-y-6">
         <h2 className="text-xl font-semibold text-gray-700">Ajouter un Dialogue</h2>
 
@@ -214,7 +187,13 @@ export default function MesDialoguesPage() {
       </form>
 
       {/* Liste des dialogues existants */}
-      <DialogueList dialogues={dialogues} onDelete={handleDelete} />
+      {isLoading ? (
+        <p>Chargement...</p>
+      ) : error ? (
+        <p className="text-red-600">Erreur lors du chargement des dialogues.</p>
+      ) : (
+        <DialogueList dialogues={data?.dialogues || []} onDelete={handleDelete} />
+      )}
     </div>
   );
 }

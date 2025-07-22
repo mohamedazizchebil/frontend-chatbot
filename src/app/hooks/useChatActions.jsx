@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 
-const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
 
 
 export default function useChatActions({
+  appId,
   messages,
   setMessages,
   setCurrentOptions,
@@ -116,7 +117,7 @@ export default function useChatActions({
             const response = await fetch(`${CHATBOT_BACKEND_URL}/similair`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nom: productName }),
+              body: JSON.stringify({ nom: productName ,appid:appId }),
             });
             const data = await response.json();
 

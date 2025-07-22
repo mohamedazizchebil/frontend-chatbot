@@ -11,8 +11,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <>
+      
         <Navbar /> 
         <main className="max-w-7xl mx-auto px-4 py-8">
           {children}
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <footer className="bg-blue-600 border-t mt-20 py-6 text-center text-sm text-white">
           © {new Date().getFullYear()} Aidea Bot · Tous droits réservés.
         </footer>
-      </body>
-    </html>
+      </>
+    
   );
 }

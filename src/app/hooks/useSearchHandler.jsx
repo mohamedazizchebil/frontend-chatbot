@@ -1,8 +1,9 @@
 
-const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
 
 
 export default function useSearchHandler({
+  appId,
   messages,
   setMessages,
   userInput,
@@ -53,7 +54,7 @@ export default function useSearchHandler({
       const res = await fetch(`${CHATBOT_BACKEND_URL}/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nom: trimmedInput, description: trimmedInput }),
+        body: JSON.stringify({ nom: trimmedInput, description: trimmedInput,appid:appId }),
       });
 
       const searchData = await res.json();

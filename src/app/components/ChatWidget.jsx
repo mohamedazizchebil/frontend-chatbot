@@ -71,6 +71,7 @@ useChatInitialisation({
 
 
 const { sendMessage, handleOptionClick } = useChatActions({
+  appId,
   messages,
   setMessages,
   setCurrentOptions,
@@ -91,6 +92,7 @@ const { sendMessage, handleOptionClick } = useChatActions({
 
   // Gère la soumission du formulaire de recherche
   const {handleSearchSubmit}= useSearchHandler({
+    appId,
     messages,
     setMessages,
     userInput,

@@ -10,7 +10,7 @@ export default function useChatInitialisation({
   setCurrentOptions,
   setFullDialogueConfig
 }) {
-  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+  const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
   
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function useChatInitialisation({
         const initRes = await fetch(`${CHATBOT_BACKEND_URL}/chat/init`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ appId, pageType }),
+          body: JSON.stringify({ appid: appId, pageType }),
         });
 
         const data = await initRes.json();

@@ -9,6 +9,7 @@ import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Link from 'next/link';
 
 export default function DialogueList({ dialogues, onDelete }) {
   const router = useRouter();
@@ -54,14 +55,16 @@ export default function DialogueList({ dialogues, onDelete }) {
             </Box>
           </CardContent>
           <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
+            <Link href={`/dashboard/mesdialogues/${dialogue.pageType}`} passHref>
             <Button
               size="small"
               variant="contained"
               color="primary"
-              onClick={() => router.push(`/editdialogue?pageType=${dialogue.pageType}`)}
             >
               Modifier
+              
             </Button>
+            </Link>
             <Button
               size="small"
               variant="contained"

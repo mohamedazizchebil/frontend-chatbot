@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Alert from "@mui/material/Alert";
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function ElasticConfigPage() {
   const [elasticUrl, setElasticUrl] = useState('');
@@ -11,21 +15,43 @@ export default function ElasticConfigPage() {
   const [isConfigured, setIsConfigured] = useState(false); // Config trouvée
   const [isEditing, setIsEditing] = useState(false); // Mode édition
   const CHATBOT_BACKEND_URL = 'http://localhost:3001/api';
+  const router =useRouter();
 
 
 
+  
+
+
+
+  
+
+
+
+
+
+
+
+ useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    router.push("/login");
+  } else {
+    verifyElasticConfig();
+  }
+}, [router]);
 
   const verifyElasticConfig = async () => {
-    const token = localStorage.getItem('token');
+   
     try {
-      const res = await fetch(`${CHATBOT_BACKEND_URL}/getElasticInformation`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetchWithAuth(`${CHATBOT_BACKEND_URL}/getElasticInformation`, {
+        method: 'GET'
+      },router);
+
+      if(!res){
+        return;
+      }
       const data = await res.json();
+
       if (res.ok && data.elasticsearch) {
         setSuccessMsg('Configuration Elasticsearch trouvée !');
         setElasticUrl(data.elasticsearch.url ?? '');
@@ -35,19 +61,12 @@ export default function ElasticConfigPage() {
         setErrorMsg(data.error || 'Une erreur est survenue lors de la vérification.');
       }
     } catch (err) {
-      console.error(err);
-      setErrorMsg('Erreur réseau. Veuillez réessayer.');
+      setErrorMsg('Erreur.Veuillez réessayer.');
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = '/login';
-    } else {
-      verifyElasticConfig();
-    }
-  }, []);
+ 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,19 +75,18 @@ export default function ElasticConfigPage() {
       setSuccessMsg("")
       return;
     }
-    const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`${CHATBOT_BACKEND_URL}/addElasticInformation`, {
+      const res = await fetchWithAuth(`${CHATBOT_BACKEND_URL}/addElasticInformation`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           url: elasticUrl,
           apikey: elasticKey,
         }),
-      });
+      },router);
+
+      if(!res){
+        return
+      }
 
       const data = await res.json();
 
@@ -102,8 +120,6 @@ export default function ElasticConfigPage() {
             className="w-full px-4 py-2 border rounded-md text-black"
             value={elasticUrl}
             onChange={(e) => {setElasticUrl(e.target.value);
-               setErrorMsg("");
-    setSuccessMsg("");
             }}
             disabled={isConfigured && !isEditing}
           />
@@ -116,8 +132,6 @@ export default function ElasticConfigPage() {
             className="w-full px-4 py-2 border rounded-md text-black"
             value={elasticKey}
             onChange={(e) => {setElasticKey(e.target.value);
-              setErrorMsg("");
-    setSuccessMsg("");
             }}
             disabled={isConfigured && !isEditing}
           />
