@@ -33,7 +33,6 @@ export default function useChatActions({
     
 
     if (selectedOption) {
-      console.log("👉 Option sélectionnée :", selectedOption);
       if (selectedOption.action === 'semantic_search') {
         actionToPerform = selectedOption;
       }
@@ -96,7 +95,6 @@ export default function useChatActions({
         contact_agent: () => alert('Un agent vous contactera.'),
         open_livechat: () => alert('Chat en direct ouvert.'),
         similar_product_search: async() => {
-          console.log("✅ Action similaire déclenchée");
           if (!pageSpecificData || !pageSpecificData.productName) {
             alert('Aucun produit spécifique trouvé pour la recherche similaire.');
             return;

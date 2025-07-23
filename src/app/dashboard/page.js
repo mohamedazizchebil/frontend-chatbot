@@ -2,18 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
 
 export default function Dashboard() {
   const router = useRouter();
   const [appId, setAppId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
+
 
  
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const appid = localStorage.getItem("appid");
@@ -22,7 +18,6 @@ export default function Dashboard() {
       router.push("/login");
     } else {
       setAppId(appid);
-      setLoading(false);
     }
   }, [router]);
 

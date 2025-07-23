@@ -1,4 +1,4 @@
-
+//hook pour lancer une simple recherche dans le chatbot
 const CHATBOT_BACKEND_URL = 'https://e-commerce-chatbot-n039.onrender.com/api';
 
 

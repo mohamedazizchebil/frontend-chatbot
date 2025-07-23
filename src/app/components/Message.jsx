@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import React from 'react';
-import Image from 'next/image';
 
 import Product from './product';
 

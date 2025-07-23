@@ -1,6 +1,6 @@
 // components/SearchInput.jsx
 import React from 'react';
-import { FaSearch } from "react-icons/fa";
+
 
 export default function SearchInput({ userInput, setUserInput, onSubmit }) {
   return (

@@ -1,5 +1,8 @@
+//hook pour initialiser le dialogue du chatbot
+
+
 import { useEffect } from "react";
-import {jwtDecode} from "jwt-decode";
+
 
 export default function useChatInitialisation({
   appId,
@@ -58,22 +61,21 @@ export default function useChatInitialisation({
             return;
           }
         } catch (err) {
-          console.error("❌ Erreur lors de la vérification du token:", err);
+          console.error("Erreur lors de la vérification du token:", err);
         }
       }
 
-      // ✅ Étape 2 : Si token encore valide → restaurer l'état
+      //  Étape 2 : Si token encore valide → restaurer l'état
       if (isValidSession && storedDialogueConfig && storedStep && storedMessages) {
         const parsedStep = JSON.parse(storedStep);
         setFullDialogueConfig(JSON.parse(storedDialogueConfig));
         setCurrentDialogueStep(parsedStep);
         setMessages(JSON.parse(storedMessages));
         setCurrentOptions(parsedStep.options);
-        console.log("✅ État restauré depuis localStorage.");
         return;
       }
 
-      // 🆕 Étape 3 : Initialisation depuis le backend
+      //  Étape 3 : Initialisation depuis le backend
       try {
         const initRes = await fetch(`${CHATBOT_BACKEND_URL}/chat/init`, {
           method: 'POST',
@@ -95,7 +97,7 @@ export default function useChatInitialisation({
 
         const initialStep = data.initialDialogueConfig.dialogue[0];
 
-        // 💾 Sauvegarde dans localStorage
+        // Sauvegarde dans localStorage
         localStorage.setItem(`${dialogueKey}_token`, data.token);
         localStorage.setItem(`${dialogueKey}_fullDialogueConfig`, JSON.stringify(data.initialDialogueConfig));
         localStorage.setItem(`${dialogueKey}_currentDialogueStep`, JSON.stringify(initialStep));
@@ -104,13 +106,13 @@ export default function useChatInitialisation({
           JSON.stringify([{ type: 'bot', content: [{ type: 'text', content: initialStep.question }] }])
         );
 
-        // 🧠 Mise à jour de l'état React
+        // Mise à jour de l'état
         setFullDialogueConfig(data.initialDialogueConfig);
         setCurrentDialogueStep(initialStep);
         setMessages([{ type: 'bot', content: [{ type: 'text', content: initialStep.question }] }]);
         setCurrentOptions(initialStep.options);
       } catch (err) {
-        console.error("❌ Erreur d'initialisation du chatbot:", err);
+        console.error(" Erreur d'initialisation du chatbot:", err);
         setMessages([
           {
             type: 'bot',
