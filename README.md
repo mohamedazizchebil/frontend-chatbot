@@ -1,7 +1,7 @@
 
 # Aidea – Chatbot E-commerce
 
-Aidea est un chatbot intelligent conçu pour les sites e-commerce. Il automatise le support client, booste les ventes et propose des recommandations personnalisées grâce à l’IA. Facile à configurer, il s’intègre sur n’importe quel site via un simple widget web.
+Aidea est un chatbot intelligent conçu pour les sites e-commerce. Il automatise le support client, propose des recommandations personnalisées grâce à l’IA. Facile à configurer(fichiers JSON), il s’intègre sur n’importe quel site via un simple widget web.
 
 
 
